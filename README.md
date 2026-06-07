@@ -26,6 +26,10 @@ It does two things, both with fully documented methodology:
 > `noonkit` is built to be correct against the published formulae (see the test
 > suite), but it is a decision-support tool, not a regulatory authority.
 
+New to the project or to maritime data? Start with the plain-language
+[FAQ](docs/FAQ.md). For formula-by-formula detail, see the
+[methodology](docs/METHODOLOGY.md).
+
 ---
 
 ## Why this exists / how it differs
