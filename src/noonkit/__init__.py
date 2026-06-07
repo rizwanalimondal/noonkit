@@ -31,7 +31,7 @@ from .performance import (
     fit_speed_consumption,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "ShipType",

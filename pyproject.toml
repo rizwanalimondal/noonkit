@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "noonkit"
-version = "0.1.0"
+version = "0.2.0"
 description = "Open, methodology-transparent analysis of ship noon reports: vessel performance and IMO CII compliance."
 readme = "README.md"
 requires-python = ">=3.10"

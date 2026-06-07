@@ -41,20 +41,21 @@ st.set_page_config(
     layout="wide",
 )
 
-NAVY = "#1b2a4a"
-ACCENT = "#c2410c"
-GRID = "#e6e8ec"
+NAVY = "#0F2A4A"
+ACCENT = "#1E4D88"
+GRID = "#E5E7EB"
 
 st.markdown(
     """
     <style>
-    .stApp { background: #fbfcfd; }
-    h1, h2, h3 { color: #1b2a4a; }
+    .stApp { background: #FFFFFF; }
+    h1, h2, h3 { color: #0F2A4A; }
     .rating-badge {
-        display:inline-block; padding:6px 18px; border-radius:8px;
+        display:inline-block; padding:6px 18px; border-radius:2px;
         font-size:28px; font-weight:700; color:white;
     }
-    .small-note { color:#6b7280; font-size:13px; }
+    .small-note { color:#6B7280; font-size:13px; }
+    .stButton button { border-radius:2px; }
     </style>
     """,
     unsafe_allow_html=True,
