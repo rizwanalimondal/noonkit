@@ -111,6 +111,51 @@ class TestReferenceLine:
         ref = reference_cii(ShipType.TANKER, dwt=100000, gt=50000)
         assert ref > 0
 
+    # --- coefficients verified against MEPC.353(78) Table 1 directly ---
+    def test_lng_small_band_uses_correct_coefficient(self):
+        # <65,000 DWT LNG uses a=14779e10 (NOT 14479e10), c=2.673
+        from noonkit.cii import _select_reference_params
+        p = _select_reference_params(ShipType.LNG_CARRIER, dwt=50000, gt=0)
+        assert p.a == pytest.approx(14779e10)
+        assert p.c == pytest.approx(2.673)
+
+    def test_lng_mid_band_uses_correct_coefficient(self):
+        # 65,000-100,000 DWT LNG uses a=14479e10, c=2.673
+        from noonkit.cii import _select_reference_params
+        p = _select_reference_params(ShipType.LNG_CARRIER, dwt=80000, gt=0)
+        assert p.a == pytest.approx(14479e10)
+
+    def test_lng_large_band_uses_correct_coefficient(self):
+        from noonkit.cii import _select_reference_params
+        p = _select_reference_params(ShipType.LNG_CARRIER, dwt=120000, gt=0)
+        assert p.a == pytest.approx(9.827)
+        assert p.c == pytest.approx(0.000)
+
+    def test_roro_vehicle_carrier_coefficient(self):
+        # >=30,000 GT vehicle carrier uses a=3627 (NOT 5739), c=0.590
+        from noonkit.cii import _select_reference_params
+        p = _select_reference_params(
+            ShipType.RORO_CARGO_VEHICLE_CARRIER, dwt=0, gt=40000
+        )
+        assert p.a == pytest.approx(3627.0)
+        assert p.c == pytest.approx(0.590)
+
+    def test_roro_vehicle_carrier_gt_capped(self):
+        # GT capped at 57,700 for the large band
+        cap, metric = resolve_capacity(
+            ShipType.RORO_CARGO_VEHICLE_CARRIER, dwt=0, gt=70000
+        )
+        assert metric == CapacityMetric.GT
+        assert cap == 57700
+
+    def test_roro_vehicle_carrier_small_band(self):
+        from noonkit.cii import _select_reference_params
+        p = _select_reference_params(
+            ShipType.RORO_CARGO_VEHICLE_CARRIER, dwt=0, gt=20000
+        )
+        assert p.a == pytest.approx(330.0)
+        assert p.c == pytest.approx(0.329)
+
     def test_reference_line_decreases_with_size(self):
         # Larger ships have a lower (better) reference CII per the a*Cap^-c form
         small = reference_cii(ShipType.TANKER, dwt=50000, gt=0)

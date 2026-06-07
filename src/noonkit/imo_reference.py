@@ -77,6 +77,7 @@ class ReferenceLineParams:
     c: float
     capacity_metric: CapacityMetric
     dwt_cap: float | None = None
+    gt_cap: float | None = None
     dwt_threshold: float | None = None
     applies_above_threshold: bool | None = None
 
@@ -120,13 +121,22 @@ REFERENCE_LINE_PARAMS: dict[ShipType, list[ReferenceLineParams]] = {
         ReferenceLineParams(a=5119.0, c=0.622, capacity_metric=CapacityMetric.DWT),
     ],
     ShipType.LNG_CARRIER: [
+        # Three bands per MEPC.353(78) Table 1.
         ReferenceLineParams(a=9.827, c=0.000, capacity_metric=CapacityMetric.DWT,
                             dwt_threshold=100000.0, applies_above_threshold=True),
         ReferenceLineParams(a=14479e10, c=2.673, capacity_metric=CapacityMetric.DWT,
-                            dwt_threshold=100000.0, applies_above_threshold=False),
+                            dwt_threshold=65000.0, applies_above_threshold=True),
+        ReferenceLineParams(a=14779e10, c=2.673, capacity_metric=CapacityMetric.DWT,
+                            dwt_threshold=65000.0, applies_above_threshold=False),
     ],
     ShipType.RORO_CARGO_VEHICLE_CARRIER: [
-        ReferenceLineParams(a=5739.0, c=0.590, capacity_metric=CapacityMetric.GT),
+        # Per MEPC.353(78): a=3627, c=0.590 for >=30,000 GT (>=57,700 capped
+        # at 57,700); a=330, c=0.329 for <30,000 GT.
+        ReferenceLineParams(a=3627.0, c=0.590, capacity_metric=CapacityMetric.GT,
+                            gt_cap=57700.0, dwt_threshold=30000.0,
+                            applies_above_threshold=True),
+        ReferenceLineParams(a=330.0, c=0.329, capacity_metric=CapacityMetric.GT,
+                            dwt_threshold=30000.0, applies_above_threshold=False),
     ],
     ShipType.RORO_CARGO_SHIP: [
         ReferenceLineParams(a=1967.0, c=0.485, capacity_metric=CapacityMetric.GT),

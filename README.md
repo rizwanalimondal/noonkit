@@ -118,8 +118,29 @@ The suite pins the CII engine to the IMO worked examples and the published
 reference tables, and verifies the performance fit recovers a known power law
 and a known fouling trend from synthetic data.
 
+## Scope and limitations
+
+Being clear about what this does and doesn't do matters more than looking
+complete:
+
+- **Implemented:** operational CII (attained, required, A–E rating) for all 12
+  ship types, with coefficients verified against the IMO resolution PDFs;
+  speed–consumption baseline fitting; clean-hull fouling-trend detection;
+  flexible noon-report ingestion with surfaced data-quality flags.
+- **Not yet implemented:** the CII *correction factors* permitted for certain
+  ship types and voyages under MEPC.355(78) and the G5 guidelines — for
+  example, voyage adjustments (ice transit, STS operations) and exclusions of
+  electrical power consumed by reefer cargo or specialised systems. The current
+  engine computes the uncorrected operational CII. For many ships this is the
+  whole story; for ships eligible for corrections, the attained CII reported
+  here will be conservative (i.e. it may look slightly worse than the corrected
+  figure). This is on the roadmap and flagged here so results are never
+  over-interpreted.
+- **Not a compliance authority.** See the disclaimer below.
+
 ## Roadmap
 
+- CII correction factors and voyage adjustments (MEPC.355(78) / G5)
 - EU MRV / IMO DCS report export
 - EEXI (design index) calculation alongside operational CII
 - Trim/draft correction in the performance baseline

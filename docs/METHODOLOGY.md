@@ -178,4 +178,7 @@ the CLI default.
 - MEPC.364(79) — fuel mass → CO₂ conversion factors (Cf)
 - Smart Maritime Network — Standardised Vessel Dataset (SVD) for Noon Reports
 
-All numeric tables in `imo_reference.py` cite the resolution they come from.
+All numeric tables in `imo_reference.py` cite the resolution they come from and
+have been transcribed and cross-checked directly against the official IMO
+resolution PDFs (MEPC.353(78) Table 1 and MEPC.354(78) Table 1). The CII rating
+logic is pinned to the worked example given in MEPC.354(78) itself.

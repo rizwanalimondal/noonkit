@@ -85,7 +85,7 @@ class CIIResult:
 
 
 def _select_reference_params(
-    ship_type: ShipType, dwt: float
+    ship_type: ShipType, dwt: float, gt: float = 0.0
 ) -> ReferenceLineParams:
     candidates = REFERENCE_LINE_PARAMS[ship_type]
     if len(candidates) == 1:
@@ -93,7 +93,9 @@ def _select_reference_params(
     for params in candidates:
         if params.dwt_threshold is None:
             return params
-        above = dwt >= params.dwt_threshold
+        # The threshold applies to whichever capacity metric the ship type uses.
+        value = gt if params.capacity_metric == CapacityMetric.GT else dwt
+        above = value >= params.dwt_threshold
         if params.applies_above_threshold == above:
             return params
     return candidates[-1]
@@ -121,11 +123,14 @@ def resolve_capacity(
     Per MEPC.353(78): most ship types use DWT; ro-ro/cruise types use GT.
     Bulk carriers cap the DWT used at 279,000.
     """
-    params = _select_reference_params(ship_type, dwt)
+    params = _select_reference_params(ship_type, dwt, gt)
     if params.capacity_metric == CapacityMetric.GT:
         if gt <= 0:
             raise ValueError(f"{ship_type.value} requires a positive GT value")
-        return gt, CapacityMetric.GT
+        capacity = gt
+        if params.gt_cap is not None:
+            capacity = min(capacity, params.gt_cap)
+        return capacity, CapacityMetric.GT
     if dwt <= 0:
         raise ValueError(f"{ship_type.value} requires a positive DWT value")
     capacity = dwt
@@ -135,7 +140,7 @@ def resolve_capacity(
 
 
 def reference_cii(ship_type: ShipType, dwt: float, gt: float) -> float:
-    params = _select_reference_params(ship_type, dwt)
+    params = _select_reference_params(ship_type, dwt, gt)
     capacity, _ = resolve_capacity(ship_type, dwt, gt)
     return params.a * capacity ** (-params.c)
 
