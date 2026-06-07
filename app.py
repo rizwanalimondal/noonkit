@@ -61,6 +61,26 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+SHIP_TYPE_LABELS = {
+    "bulk_carrier": "Bulk Carrier",
+    "gas_carrier": "Gas Carrier",
+    "tanker": "Tanker",
+    "container_ship": "Container Ship",
+    "general_cargo_ship": "General Cargo Ship",
+    "refrigerated_cargo_carrier": "Refrigerated Cargo Carrier",
+    "combination_carrier": "Combination Carrier",
+    "lng_carrier": "LNG Carrier",
+    "roro_cargo_vehicle_carrier": "RoRo Cargo / Vehicle Carrier",
+    "roro_cargo_ship": "RoRo Cargo Ship",
+    "roro_passenger_ship": "RoRo Passenger Ship",
+    "cruise_passenger_ship": "Cruise Passenger Ship",
+}
+
+
+def _ship_label(value: str) -> str:
+    return SHIP_TYPE_LABELS.get(value, value.replace("_", " ").title())
+
+
 RATING_COLORS = {
     "A": "#15803d", "B": "#65a30d", "C": "#ca8a04",
     "D": "#ea580c", "E": "#dc2626",
@@ -70,7 +90,22 @@ RATING_COLORS = {
 # ---------------------------------------------------------------------------
 # Header
 # ---------------------------------------------------------------------------
-st.title("🚢 noonkit")
+st.markdown(
+    """
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;">
+      <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 19h22l-2.5 6.5a2 2 0 0 1-1.9 1.3H9.4a2 2 0 0 1-1.9-1.3L5 19z"
+              fill="#0F2A4A"/>
+        <path d="M8 19V9.5a1 1 0 0 1 1-1h7l4 4v6.5" fill="#1E4D88"/>
+        <rect x="10.5" y="11" width="2.4" height="2.4" rx="0.3" fill="#FFFFFF" opacity="0.9"/>
+        <rect x="14.2" y="11" width="2.4" height="2.4" rx="0.3" fill="#FFFFFF" opacity="0.9"/>
+        <path d="M16 8.5V5h5" stroke="#0F2A4A" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <span style="font-size:38px;font-weight:700;color:#0F2A4A;letter-spacing:-0.02em;">noonkit</span>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 st.markdown(
     "**Open, methodology-transparent analysis of ship noon reports.** "
     "Upload your noon-report CSV to see hull-fouling signal and IMO CII rating. "
@@ -92,7 +127,7 @@ with st.sidebar:
         "Ship type",
         options=[s.value for s in ShipType],
         index=[s.value for s in ShipType].index("tanker"),
-        format_func=lambda s: s.replace("_", " ").title(),
+        format_func=_ship_label,
     )
     dwt = st.number_input("Deadweight tonnage (DWT)", min_value=0, value=110000, step=1000)
     gt = st.number_input("Gross tonnage (GT)", min_value=0, value=60000, step=1000)
