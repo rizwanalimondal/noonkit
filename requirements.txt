@@ -1,0 +1,6 @@
+# Dependencies for the Streamlit dashboard (app.py) on Streamlit Community Cloud.
+# Installing the local package (".") makes `import noonkit` work on the host
+# and pulls in pandas/numpy via the package's own dependencies.
+streamlit>=1.30
+matplotlib>=3.5
+.

@@ -79,6 +79,26 @@ Example output:
   Compliant (C or better): True
 ```
 
+## Dashboard (no code required)
+
+For a point-and-click version — upload a CSV, see the fouling chart and CII
+rating in your browser — there's a Streamlit dashboard:
+
+```bash
+pip install streamlit matplotlib
+streamlit run app.py
+```
+
+It opens in your browser, includes a "Use demo data" button, and auto-maps
+common noon-report column names. **The dashboard performs no calculation of its
+own** — every number comes straight from the tested `noonkit` engine, so the UI
+can never silently disagree with the library or the CLI.
+
+A hosted version can be deployed free on
+[Streamlit Community Cloud](https://share.streamlit.io) by pointing it at this
+repo and `app.py`.
+<!-- Live demo: https://noonkit.streamlit.app  (add your URL once deployed) -->
+
 ## Quick start (library)
 
 ```python
