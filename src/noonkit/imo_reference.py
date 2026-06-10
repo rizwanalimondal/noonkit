@@ -19,12 +19,16 @@ Primary sources
 - MEPC.364(79)  : 2022 Guidelines on the method of calculation of the EEDI;
                   source of the fuel-mass -> CO2-mass conversion factors (Cf).
 - MEPC.348(78)  : Annual reduction factor (Z%) table through 2026.
+- MEPC.400(83)  : Adopted 11 April 2025 — extends the reduction factor (Z%)
+                  table through 2030 (13.625 / 16.25 / 18.875 / 21.5 %).
 
 IMPORTANT
 ---------
-The reduction factors for 2027-2030 have NOT been formally adopted by the IMO
-at the time of writing. Where this library projects beyond 2026 it labels the
-result as an UNOFFICIAL projection. See `REDUCTION_FACTORS` below.
+Reduction factors are formally adopted through 2030 (MEPC.400(83)). Factors
+beyond 2030 are NOT yet defined (IMO Phase-2 review pending); the library
+refuses years outside the table rather than inventing values. The
+`is_official` flag is retained so any future projection mechanism must label
+itself. See `REDUCTION_FACTORS` below.
 """
 
 from __future__ import annotations
@@ -242,12 +246,14 @@ def resolve_fuel(name: str) -> FuelFactor:
 
 
 # ---------------------------------------------------------------------------
-# Annual reduction factor Z%  --  MEPC.338(76) / MEPC.348(78)
+# Annual reduction factor Z%  --  MEPC.338(76) / MEPC.348(78) / MEPC.400(83)
 #
 # required_CII(year) = reference_CII * (1 - Z/100)
 #
-# Values 2023-2026 are formally adopted. 2027-2030 are NOT yet adopted by IMO;
-# they are linear-trend projections and are flagged as such by `is_official`.
+# Values 2023-2026 per MEPC.348(78); 2027-2030 formally adopted by
+# Resolution MEPC.400(83) on 11 April 2025 (a +2.625 pp/year ramp).
+# Beyond 2030 nothing is defined (Phase-2 review pending) and the library
+# raises for years outside this table.
 # ---------------------------------------------------------------------------
 @dataclass(frozen=True)
 class ReductionFactor:
@@ -264,9 +270,9 @@ REDUCTION_FACTORS: dict[int, ReductionFactor] = {
     2024: ReductionFactor(7.0, True),
     2025: ReductionFactor(9.0, True),
     2026: ReductionFactor(11.0, True),
-    # ---- Unofficial projections beyond 2026 (NOT IMO-adopted) ----
-    2027: ReductionFactor(13.0, False),
-    2028: ReductionFactor(15.0, False),
-    2029: ReductionFactor(17.0, False),
-    2030: ReductionFactor(19.0, False),
+    # ---- Adopted by Resolution MEPC.400(83), 11 April 2025 ----
+    2027: ReductionFactor(13.625, True),
+    2028: ReductionFactor(16.25, True),
+    2029: ReductionFactor(18.875, True),
+    2030: ReductionFactor(21.5, True),
 }

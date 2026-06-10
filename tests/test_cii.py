@@ -196,13 +196,23 @@ class TestEndToEnd:
         )
         assert result.rating in set(Rating)
 
-    def test_projection_year_flagged(self):
+    def test_mepc_400_83_factors_official(self):
+        """2027-2030 Z factors were adopted by Resolution MEPC.400(83)
+        (11 April 2025): 13.625 / 16.25 / 18.875 / 21.5 %."""
+        from noonkit.imo_reference import REDUCTION_FACTORS
+
+        adopted = {2027: 13.625, 2028: 16.25, 2029: 18.875, 2030: 21.5}
+        for year, z in adopted.items():
+            rf = REDUCTION_FACTORS[year]
+            assert rf.z_percent == pytest.approx(z)
+            assert rf.is_official is True
+
         result = calculate_cii(
             ship_type=ShipType.TANKER, dwt=100000, gt=55000,
             distance_nm=60000, fuels=[FuelConsumption("HFO", 8000)], year=2028,
         )
-        assert result.reduction_factor_official is False
-        assert any("unofficial" in n.lower() for n in result.notes)
+        assert result.reduction_factor_official is True
+        assert not any("unofficial" in n.lower() for n in result.notes)
 
     def test_unsupported_year_raises(self):
         with pytest.raises(ValueError):
