@@ -27,8 +27,11 @@ It does two things, both with fully documented methodology:
 > suite), but it is a decision-support tool, not a regulatory authority.
 
 New to the project or to maritime data? Start with the plain-language
-[FAQ](docs/FAQ.md). For formula-by-formula detail, see the
-[methodology](docs/METHODOLOGY.md).
+[FAQ](docs/FAQ.md) — it assumes no shipping *or* software background. For
+formula-by-formula detail see the [methodology](docs/METHODOLOGY.md), and for
+the audit of every constant against the IMO resolutions — including two
+transcription errors it caught in circulating secondary sources — see the
+[verification](docs/VERIFICATION.md).
 
 ---
 
@@ -186,3 +189,11 @@ MIT. See [LICENSE](LICENSE).
 This software is provided as-is. Results are estimates and guidance and must not
 be treated as proof of regulatory compliance. Always verify against official
 sources and your Administration / Recognized Organisation.
+
+## About
+
+noonkit is built and maintained by **[Navallogic Solutions](https://navallogic.com)** — an independent maritime advisory focused on vessel-performance analytics and decarbonisation compliance — as part of an open portfolio that includes the [FuelEU Pool Optimiser](https://github.com/rizwanalimondal/fueleu-pool-optimiser) (lowest-cost fleet compliance via linear programming) and the [Maritime GHG Compliance Navigator](https://github.com/rizwanalimondal/ghg-compliance-navigator) (one fuel picture scored against IMO NZF, FuelEU, EU ETS and CII simultaneously).
+
+For fleet-wide performance audits, hull-cleaning timing studies, or CII trajectory planning beyond what a public tool can responsibly offer, get in touch via [navallogic.com](https://navallogic.com).
+
+*Built by Rizwan Ali Mondal.*
