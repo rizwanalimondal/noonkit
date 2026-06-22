@@ -1,4 +1,4 @@
-# noonkit
+# NoonKit
 
 **Open, methodology-transparent analysis of ship noon reports — vessel
 performance and IMO CII compliance, in one toolkit.**
